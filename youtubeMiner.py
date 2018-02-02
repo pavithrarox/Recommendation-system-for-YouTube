@@ -41,14 +41,14 @@ def youtube_search(words):
 	s = ','.join(videos.keys())
 	videos_list_response = youtube.videos().list(
 	 id=s,
-	 part='id,statistics'
+	 part='id,statistics,snippet'
 	).execute()
 	#videos_list_response['items'].sort(key=lambda x: int(x['statistics']['likeCount']), reverse=True)
 	#res = pd.read_json(json.dumps(videos_list_response['items']))
 	res = []
 	for i in videos_list_response['items']:
 	 temp_res = dict(v_id = i['id'], v_title = videos[i['id']])
-	 temp_res.update(i['statistics'])
+	 temp_res.update(i['snippet'])
 	 res.append(temp_res)
 	df = pd.DataFrame.from_dict(res)
 	df.to_csv('YTlaughable123.csv', mode='a',encoding='utf-8')
